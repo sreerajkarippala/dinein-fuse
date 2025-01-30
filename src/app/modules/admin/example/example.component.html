@@ -1,0 +1,105 @@
+
+
+<div class="flex min-w-0 flex-auto flex-col gap-8 container mx-auto px-8">
+
+
+
+    <mat-card appearance="outlined" class="rounded-lg mt-8">
+        <div #chartContainer class="chart-width"></div>
+    </mat-card>
+
+
+
+    <mat-card appearance="outlined" class="rounded-lg">
+        <mat-card-header class="text-center">
+            <mat-card-title class="font-bold"> Slow Moving Dishes</mat-card-title>
+        </mat-card-header>
+        <div class=" mt-6 grid flex-auto grid-cols-4 gap-4">
+            <div
+                class="col-span-2 flex flex-col items-center justify-center rounded-2xl bg-indigo-50 px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
+                <div class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl">{{
+                    slowMovingDishes[0]?.count }}</div>
+                <div class="mt-1 text-sm font-medium sm:text-lg">{{ slowMovingDishes[0]?.name }}</div>
+            </div>
+            <div
+                class="col-span-2 flex flex-col items-center justify-center rounded-2xl bg-green-50 px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
+                <div class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl">{{
+                    slowMovingDishes[1]?.count }}</div>
+                <div class="mt-1 text-sm font-medium sm:text-lg">{{ slowMovingDishes[1]?.name }}</div>
+            </div>
+            <div
+                class="text-secondary col-span-2 flex flex-col items-center justify-center rounded-2xl bg-gray-100 px-1 py-8 dark:bg-white dark:bg-opacity-5 sm:col-span-1">
+                <div class="text-5xl font-semibold leading-none tracking-tight">{{ slowMovingDishes[2]?.count }}
+                </div>
+                <div class="mt-1 text-center text-sm font-medium">{{ slowMovingDishes[2]?.name }}</div>
+            </div>
+            <div
+                class="text-secondary col-span-2 flex flex-col items-center justify-center rounded-2xl bg-gray-100 px-1 py-8 dark:bg-white dark:bg-opacity-5 sm:col-span-1">
+                <div class="text-5xl font-semibold leading-none tracking-tight">{{ slowMovingDishes[3]?.count }}
+                </div>
+                <div class="mt-1 text-center text-sm font-medium">{{ slowMovingDishes[3]?.name }}</div>
+            </div>
+            <div
+                class="text-secondary col-span-2 flex flex-col items-center justify-center rounded-2xl bg-gray-100 px-1 py-8 dark:bg-white dark:bg-opacity-5 sm:col-span-1">
+                <div class="text-5xl font-semibold leading-none tracking-tight">{{ slowMovingDishes[4]?.count }}
+                </div>
+                <div class="mt-1 text-center text-sm font-medium">{{ slowMovingDishes[4]?.name }}</div>
+            </div>
+            <div
+                class="text-secondary col-span-2 flex flex-col items-center justify-center rounded-2xl bg-gray-100 px-1 py-8 dark:bg-white dark:bg-opacity-5 sm:col-span-1">
+                <div class="text-5xl font-semibold leading-none tracking-tight">{{ slowMovingDishes[5]?.count }}
+                </div>
+                <div class="mt-1 text-center text-sm font-medium">{{ slowMovingDishes[5]?.name }}</div>
+            </div>
+        </div>
+
+    </mat-card>
+
+    <mat-card appearance="outlined" class="rounded-lg">
+        <div class="table-container">
+            <table mat-table [dataSource]="dataSource" cdkDropList cdkDropListOrientation="horizontal"
+                (cdkDropListDropped)="drop($event)">
+
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.user.name}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let element"> {{element.user.email}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="dishes">
+                    <th mat-header-cell *matHeaderCellDef> Dishes </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.dishes.join(', ')}}
+                    </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="tableNumber">
+                    <th mat-header-cell *matHeaderCellDef> Table Number </th>
+                    <td mat-cell *matCellDef="let element"> {{element.tableNumber}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="date">
+                    <th mat-header-cell *matHeaderCellDef> Date </th>
+                    <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+            </table>
+        </div>
+    </mat-card>
+</div>
+
+
+
+<!-- </div> -->

@@ -1,0 +1,18 @@
+table {
+    width: 100%;
+}
+
+th.mat-header-cell {
+    font-weight: bold;
+}
+
+.chart-width {
+    width: 100% !important;
+}
+
+.table-container {
+    overflow-x: auto;
+    overflow-y: auto;
+    max-height: 500px;
+    -webkit-overflow-scrolling: touch;
+}

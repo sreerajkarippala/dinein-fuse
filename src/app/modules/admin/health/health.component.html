@@ -1,0 +1,47 @@
+<div class="flex min-w-0 flex-auto flex-col gap-8 container mx-auto px-8">
+    <mat-card appearance="outlined" class="rounded-lg mt-8">
+        <div #donutChart></div>
+    </mat-card>
+    <mat-card appearance="outlined" class="rounded-lg">
+        <div #barChartContainer></div>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="rounded-lg">
+        <div class="table-container">
+            <table mat-table [dataSource]="healthData" cdkDropList cdkDropListOrientation="horizontal">
+
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef> Email </th>
+                    <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="allergy">
+                    <th mat-header-cell *matHeaderCellDef> Allergy </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.allergy.join(', ')}}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="item">
+                    <th mat-header-cell *matHeaderCellDef> Item </th>
+                    <td mat-cell *matCellDef="let element">
+                        {{element.item.join(', ')}}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+            </table>
+        </div>
+    </mat-card>
+
+
+</div>
