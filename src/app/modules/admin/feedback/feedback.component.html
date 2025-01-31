@@ -1,85 +1,56 @@
 <div class="flex min-w-0 flex-auto flex-col gap-8 container mx-auto px-8">
 
-    <mat-card appearance="outlined" class="rounded-lg mt-8">
-        <div #donutChart class="chart-width"></div>
-    </mat-card>
-    <div class="grid grid-cols-2 sm:grid-cols-4 gap-6">
-        
-        <mat-card appearance="outlined" class="rounded-lg">
-            <mat-card-header class="text-center">
-                <mat-card-title class="font-bold">Most 5-Star Dish</mat-card-title>
-            </mat-card-header>
-            <div class="mt-6 grid flex-auto grid-cols-4 gap-4">
-                <div
-                    class="col-span-4 flex flex-col items-center justify-center rounded-2xl bg-indigo-50 px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
-                    <div class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl">
-                        {{ mostFiveStar?.count }}
-                    </div>
-                    <div class="mt-1 text-sm font-medium sm:text-lg">
-                        {{ mostFiveStar?.dish }}
-                    </div>
-                </div>
-            </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
+        <mat-card appearance="outlined" class="rounded-lg lg:col-span-6">
+            <div #donutChart></div>
         </mat-card>
-
-    
-        <mat-card appearance="outlined" class="rounded-lg">
-            <mat-card-header class="text-center">
-                <mat-card-title class="font-bold">Most 4-Star Dish</mat-card-title>
+    <mat-card appearance="outlined" class="rounded-lg lg:col-span-6">
+        <mat-card-header class="text-center">
+            <mat-card-title class="font-bold">Dish Ratings Summary</mat-card-title>
             </mat-card-header>
-            <div class="mt-6 grid flex-auto grid-cols-4 gap-4">
-                <div
-                    class="col-span-4 flex flex-col items-center justify-center rounded-2xl bg-gray-100 px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
-                    <div class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl">
-                        {{ mostFourStar?.count }}
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item class="border-b border-gray-300 last:border-b-0 py-3">
+                    <div class="flex w-full items-center justify-between">
+                        <span class="text-md font-medium text-green-600 font-bold">Most 5-Star Dish</span>
+                        <span class="text-md font-semibold text-green-600 font-bold">{{
+                            mostFiveStar?.dish }} ({{ mostFiveStar?.count }}) </span>
                     </div>
-                    <div class="mt-1 text-sm font-medium sm:text-lg">
-                        {{ mostFourStar?.dish }}
+                </mat-list-item>
+                <mat-list-item class="border-b border-gray-300 last:border-b-0 py-3">
+                    <div class="flex w-full items-center justify-between">
+                        <span class="text-md font-medium text-black-600 font-bold">Most 4-Star Dish</span>
+                        <span class="text-md font-semibold text-green-600 font-bold">{{ mostFourStar?.dish
+                            }} ({{ mostFourStar?.count }}) </span>
                     </div>
+                </mat-list-item>
+                <mat-list-item class="border-b border-gray-300 last:border-b-0 py-3">
+                    <div class="flex w-full items-center justify-between">
+                        <span class="text-md font-medium text-black-600 font-bold">Most 3-Star Dish</span>
+                        <span class="text-md font-semibold text-black-600 font-bold">{{ mostThreeStar?.dish
+                            }} ({{ mostThreeStar?.count }}) </span>
+                    </div>
+                </mat-list-item>
+                <mat-list-item class="border-b border-gray-300 last:border-b-0 py-3">
+                    <div class="flex w-full items-center justify-between">
+                        <span class="text-md font-medium text-black-600 font-bold">Most 2-Star Dish</span>
+                        <span class="text-md font-semibold text-red-600 font-bold">{{ mostTwoStar?.dish
+                            }} ({{ mostTwoStar?.count }}) </span>
+                    </div>
+                </mat-list-item>
+                <mat-list-item class="py-3">
+                    <div class="flex w-full items-center justify-between">
+                        <span class="text-md font-medium text-red-600 font-bold">Most 1-Star Dish</span>
+                        <span class="text-md font-semibold text-red-600 font-bold">{{ mostOneStar?.dish
+                            }} ({{ mostOneStar?.count }}) </span>
+                    </div>
+                </mat-list-item>
+                </mat-list>
+                </mat-card-content>
+                </mat-card>
                 </div>
-            </div>
-        </mat-card>
 
-        
-        <mat-card appearance="outlined" class="rounded-lg">
-            <mat-card-header class="text-center">
-                <mat-card-title class="font-bold">Most 2-Star Dish</mat-card-title>
-            </mat-card-header>
-            <div class="mt-6 grid flex-auto grid-cols-4 gap-4">
-                <div
-                    class="col-span-4 flex flex-col items-center justify-center rounded-2xl bg-yellow-50 px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-yellow-500">
-                    <div class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl">
-                        {{ mostTwoStar?.count }}
-                    </div>
-                    <div class="mt-1 text-sm font-medium sm:text-lg">
-                        {{ mostTwoStar?.dish }}
-                    </div>
-                </div>
-            </div>
-        </mat-card>
-
-        
-        <mat-card appearance="outlined" class="rounded-lg">
-            <mat-card-header class="text-center">
-                <mat-card-title class="font-bold">Most 1-Star Dish</mat-card-title>
-            </mat-card-header>
-            <div class="mt-6 grid flex-auto grid-cols-4 gap-4">
-                <div
-                    class="col-span-4 flex flex-col items-center justify-center rounded-2xl bg-red-50 px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-red-500">
-                    <div class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl">
-                        {{ mostOneStar?.count }}
-                    </div>
-                    <div class="mt-1 text-sm font-medium sm:text-lg">
-                        {{ mostOneStar?.dish }}
-                    </div>
-                </div>
-            </div>
-        </mat-card>
-    </div>
-
-
-
-    <mat-card appearance="outlined" class="rounded-lg">
+    <mat-card appearance="outlined" class="rounded-lg mb-8">
         <div class="table-container">
             <table mat-table [dataSource]="feedbackData" cdkDropList cdkDropListOrientation="horizontal">
 

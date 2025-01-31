@@ -1,12 +1,24 @@
 <div class="flex min-w-0 flex-auto flex-col gap-8 container mx-auto px-8">
-    <mat-card appearance="outlined" class="rounded-lg mt-8">
+    <!-- <mat-card appearance="outlined" class="rounded-lg mt-8">
         <div #donutChart></div>
     </mat-card>
     <mat-card appearance="outlined" class="rounded-lg">
         <div #barChartContainer></div>
-    </mat-card>
+    </mat-card> -->
+    
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
+    
+        <mat-card appearance="outlined" class="rounded-lg lg:col-span-6 h-[225px] lg:h-[350px]">
+            <div #donutChart class="h-full"></div>
+        </mat-card>
+        <mat-card appearance="outlined" class="rounded-lg lg:col-span-6" style="height: 350px;">
+            <div #barChartContainer class="h-full"></div>
+        </mat-card>
+        </div>
 
-    <mat-card appearance="outlined" class="rounded-lg">
+
+    <mat-card appearance="outlined" class="rounded-lg mb-8">
         <div class="table-container">
             <table mat-table [dataSource]="healthData" cdkDropList cdkDropListOrientation="horizontal">
 

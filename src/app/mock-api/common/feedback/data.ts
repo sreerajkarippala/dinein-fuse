@@ -24,6 +24,14 @@ export const feedback = [
         date: '2025-01-14',
     },
     {
+        name: 'Kumar ',
+        email: 'Kumar.a@example.com',
+        dish: 'Vegetable Stir Fry',
+        rating: 3,
+        feedback: 'It was okay.',
+        date: '2025-01-14',
+    },
+    {
         name: 'Diana Williams',
         email: 'diana.williams@example.com',
         dish: 'Margherita Pizza',

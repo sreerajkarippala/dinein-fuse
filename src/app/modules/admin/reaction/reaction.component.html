@@ -9,22 +9,20 @@
 
 
 
-
-    <mat-card appearance="outlined" class="rounded-lg">
-        <div #viewChartContainer></div>
-    </mat-card>
-
-
-
-
-    <mat-card appearance="outlined" class="rounded-lg">
-        <div #openChartContainer></div>
-    </mat-card>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <mat-card appearance="outlined" class="rounded-lg lg:col-span-6" style="height: 350px;">
+            <div #viewChartContainer class="h-full"></div>
+        </mat-card>
+        <mat-card appearance="outlined" class="rounded-lg lg:col-span-6 h-[225px] lg:h-[350px]">
+            <div #openChartContainer class="h-full"></div>
+        </mat-card>
+    </div>
 
 
 
 
-    <mat-card appearance="outlined" class="rounded-lg">
+    <mat-card appearance="outlined" class="rounded-lg mb-8">
         <mat-button-toggle-group name="tableToggle" aria-label="Table Toggle" [(ngModel)]="selectedTable"
             (change)="onTableChange($event.value)" class="flex justify-end p-2">
             <mat-button-toggle value="likes">Likes</mat-button-toggle>

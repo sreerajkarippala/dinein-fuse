@@ -117,14 +117,29 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
                 categories: categories,
             },
             title: {
-                text: 'Top Moving Dishes',
+                text: 'Top Trending Search',
                 align: 'left',
-                floating: true,
+                offsetX: 12,
+                offsetY: 14,
+                floating: false,
                 style: {
-                    fontWeight: '550',
-                    fontSize: '15px',
-                    color: '#000',
+                    fontWeight: '750',
+                    fontSize: '14px',
+                    color: '#333',
+                    padding: '10px',
                 },
+            },
+
+            annotations: {
+                position: 'top',
+                xaxis: [
+                    {
+                        x: 0,
+                        strokeDashArray: 2,
+                        borderColor: '#ddd',
+                        borderWidth: 2,
+                    },
+                ],
             },
         };
 

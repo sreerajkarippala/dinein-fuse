@@ -154,12 +154,27 @@ export class ReactionComponent implements OnInit {
             title: {
                 text: 'Likes for Dishes',
                 align: 'left',
-                floating: true,
+                offsetX: 12,
+                offsetY: 14,
+                floating: false,
                 style: {
-                    fontWeight: '550',
-                    fontSize: '15px',
-                    color: '#000',
+                    fontWeight: '750',
+                    fontSize: '14px',
+                    color: '#333',
+                    padding: '10px',
                 },
+            },
+
+            annotations: {
+                position: 'top',
+                xaxis: [
+                    {
+                        x: 0,
+                        strokeDashArray: 2,
+                        borderColor: '#ddd',
+                        borderWidth: 2,
+                    },
+                ],
             },
         };
 
@@ -180,14 +195,14 @@ export class ReactionComponent implements OnInit {
             ],
             chart: {
                 type: 'bar',
-                height: 350,
+                height: '100%',
                 width: '100%',
             },
             plotOptions: {
                 bar: {
                     borderRadius: 4,
                     borderRadiusApplication: 'end',
-                    horizontal: false,
+                    horizontal: true,
                 },
             },
             dataLabels: {
@@ -199,12 +214,27 @@ export class ReactionComponent implements OnInit {
             title: {
                 text: 'Views for Dishes',
                 align: 'left',
-                floating: true,
+                offsetX: 12,
+                offsetY: 14,
+                floating: false,
                 style: {
-                    fontWeight: '550',
-                    fontSize: '15px',
-                    color: '#000',
+                    fontWeight: '750',
+                    fontSize: '14px',
+                    color: '#333',
+                    padding: '10px',
                 },
+            },
+
+            annotations: {
+                position: 'top',
+                xaxis: [
+                    {
+                        x: 0,
+                        strokeDashArray: 2,
+                        borderColor: '#ddd',
+                        borderWidth: 2,
+                    },
+                ],
             },
         };
 
@@ -224,8 +254,20 @@ export class ReactionComponent implements OnInit {
             series: values,
             chart: {
                 type: 'donut',
-                height: 350,
+                height: '100%',
                 width: '100%',
+            },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '50%',
+                        background: 'transparent',
+                        stroke: {
+                            width: 60,
+                            color: '#fff',
+                        },
+                    },
+                },
             },
             labels: categories,
             dataLabels: {
@@ -234,14 +276,30 @@ export class ReactionComponent implements OnInit {
             title: {
                 text: 'Opens for Dishes',
                 align: 'left',
-                floating: true,
+                offsetX: 12,
+                offsetY: 14,
+                floating: false,
                 style: {
-                    fontWeight: '550',
-                    fontSize: '15px',
-                    color: '#000',
+                    fontWeight: '750',
+                    fontSize: '14px',
+                    color: '#333',
+                    padding: '10px',
                 },
             },
+            annotations: {
+                position: 'top',
+                xaxis: [
+                    {
+                        x: 0,
+                        strokeDashArray: 2,
+                        borderColor: '#ddd',
+                        borderWidth: 2,
+                    },
+                ],
+            },
         };
+
+        console.log('Donut Chart Options:', options);
 
         this.openChart = new ApexCharts(
             this.openChartContainer.nativeElement,
@@ -250,3 +308,4 @@ export class ReactionComponent implements OnInit {
         this.openChart.render();
     }
 }
+

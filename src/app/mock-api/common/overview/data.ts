@@ -7,7 +7,7 @@ export const overView = [
     },
     {
         user: { email: 'jane@example.com', name: 'Jane' },
-        dishes: ['Grilled Salmon', 'Naan', 'Pancakes', 'Syrup'],
+        dishes: ['Grilled Salmon', 'Naan', 'Syrup'],
         tableNumber: 2,
         date: '2023-10-02',
     },

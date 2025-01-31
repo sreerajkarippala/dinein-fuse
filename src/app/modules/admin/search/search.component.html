@@ -4,14 +4,14 @@
     </mat-card>
 
     <div class="grid grid-cols-2 gap-6">
-        <!-- Trending Search Card -->
+        
         <mat-card appearance="outlined" class="rounded-lg">
             <mat-card-header class="text-center">
                 <mat-card-title class="font-bold">Trending Search</mat-card-title>
             </mat-card-header>
             <div class="mt-6 grid flex-auto grid-cols-4 gap-4">
                 <div
-                    class="col-span-4 flex flex-col items-center justify-center rounded-2xl bg-indigo-50 px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
+                    class="col-span-4 flex flex-col items-center justify-center rounded-2xl  px-1 py-8 text-green-500 dark:bg-white dark:bg-opacity-5 dark:text-indigo-400">
                     <div class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl">
                         {{ trendingSearch?.count }}
                     </div>
@@ -22,14 +22,14 @@
             </div>
         </mat-card>
 
-        <!-- Least Search Card -->
+        
         <mat-card appearance="outlined" class="rounded-lg">
             <mat-card-header class="text-center">
                 <mat-card-title class="font-bold">Least Search</mat-card-title>
             </mat-card-header>
             <div class="mt-6 grid flex-auto grid-cols-4 gap-4">
                 <div
-                    class="col-span-4 flex flex-col items-center justify-center rounded-2xl bg-gray-100 px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
+                    class="col-span-4 flex flex-col items-center justify-center rounded-2xl  px-1 py-8 text-red-500 dark:bg-white dark:bg-opacity-5 dark:text-green-500">
                     <div class="text-5xl font-semibold leading-none tracking-tight sm:text-7xl">
                         {{ leastSearch?.count }}
                     </div>
@@ -40,7 +40,7 @@
             </div>
         </mat-card>
     </div>
-    <mat-card appearance="outlined" class="rounded-lg">
+    <mat-card appearance="outlined" class="rounded-lg mb-8">
         <div class="table-container">
             <table mat-table [dataSource]="searchData" cdkDropList cdkDropListOrientation="horizontal">
 

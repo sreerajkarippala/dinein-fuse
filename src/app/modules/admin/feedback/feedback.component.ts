@@ -3,10 +3,11 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import ApexCharts from 'apexcharts';
 import { feedback as feedbackData } from 'app/mock-api/common/feedback/data';
+import { MatListModule } from '@angular/material/list';
 
 @Component({
     selector: 'app-feedback',
-    imports: [MatCardModule, MatTableModule],
+    imports: [MatCardModule, MatTableModule, MatListModule],
     templateUrl: './feedback.component.html',
     styleUrl: './feedback.component.scss',
 })
@@ -22,6 +23,7 @@ export class FeedbackComponent implements OnInit {
     };
     mostFiveStar = { dish: '', count: 0 };
     mostFourStar = { dish: '', count: 0 };
+    mostThreeStar = { dish: '', count: 0 };
     mostTwoStar = { dish: '', count: 0 };
     mostOneStar = { dish: '', count: 0 };
     chart: ApexCharts;
@@ -63,6 +65,11 @@ export class FeedbackComponent implements OnInit {
                 );
             } else if (feedback.rating === 3) {
                 this.ratingCount['three']++;
+                this.updateMostRatedDish(
+                    feedback.dish,
+                    feedback.rating,
+                    this.mostThreeStar
+                );
             } else if (feedback.rating === 4) {
                 this.ratingCount['four']++;
                 this.updateMostRatedDish(
@@ -83,6 +90,7 @@ export class FeedbackComponent implements OnInit {
         console.log('RatingCount:', this.ratingCount);
         console.log('Most 5-Star Dish:', this.mostFiveStar);
         console.log('Most 4-Star Dish:', this.mostFourStar);
+        console.log('Most 3-Star Dish:', this.mostThreeStar);
         console.log('Most 2-Star Dish:', this.mostTwoStar);
         console.log('Most 1-Star Dish:', this.mostOneStar);
     }
@@ -121,36 +129,64 @@ export class FeedbackComponent implements OnInit {
     }
 
     renderChart() {
-        const sortedAllergies = Object.entries(this.ratingCount)
+        const sortedRatings = Object.entries(this.ratingCount)
             .sort((a, b) => b[1] - a[1])
             .slice(0, 10);
 
-        const categories = sortedAllergies.map((item) => item[0]);
-        const values = sortedAllergies.map((item) => item[1]);
+        const categories = sortedRatings.map((item) => item[0]);
+        const values = sortedRatings.map((item) => item[1]);
         console.log(values);
 
-        const options = {
+        var options = {
             series: values,
             chart: {
                 type: 'donut',
-                height: 350,
+                height: '350',
                 width: '100%',
+            },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '50%',
+                        background: 'transparent',
+                        stroke: {
+                            width: 60,
+                            color: '#fff',
+                        },
+                    },
+                },
             },
             labels: categories,
             dataLabels: {
                 enabled: true,
             },
             title: {
-                text: 'Ratings',
+                text: 'Opens for Dishes',
                 align: 'left',
-                floating: true,
+                offsetX: 12,
+                offsetY: 14,
+                floating: false,
                 style: {
-                    fontWeight: '550',
-                    fontSize: '15px',
-                    color: '#000',
+                    fontWeight: '750',
+                    fontSize: '14px',
+                    color: '#333',
+                    padding: '10px',
                 },
             },
+            annotations: {
+                position: 'top',
+                xaxis: [
+                    {
+                        x: 0,
+                        strokeDashArray: 2,
+                        borderColor: '#ddd',
+                        borderWidth: 2,
+                    },
+                ],
+            },
         };
+
+        console.log('Donut Chart Options:', options);
 
         this.chart = new ApexCharts(this.donutChart.nativeElement, options);
         this.chart.render();

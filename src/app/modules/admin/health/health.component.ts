@@ -110,19 +110,46 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
                 height: 350,
                 width: '100%',
             },
+            plotOptions: {
+                pie: {
+                    donut: {
+                        size: '50%',  
+                        background: 'transparent', 
+                        stroke: {
+                            width: 60,  
+                            color: '#fff', 
+                        },
+                    },
+                },
+            },
             labels: categories,
             dataLabels: {
                 enabled: true,
             },
             title: {
-                text: 'Top Allergy Issues',
+                text: 'Top Allergies',
                 align: 'left',
-                floating: true,
+                offsetX: 12,
+                offsetY: 14,
+                floating: false,
                 style: {
-                    fontWeight: '550',
-                    fontSize: '15px',
-                    color: '#000',
+                    fontWeight: '750',
+                    fontSize: '14px',
+                    color: '#333',
+                    padding: '10px',
                 },
+            },
+
+            annotations: {
+                position: 'top',
+                xaxis: [
+                    {
+                        x: 0,
+                        strokeDashArray: 2,
+                        borderColor: '#ddd',
+                        borderWidth: 2,
+                    },
+                ],
             },
         };
 
@@ -153,7 +180,7 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
                 bar: {
                     borderRadius: 4,
                     borderRadiusApplication: 'end',
-                    horizontal: false,
+                    horizontal: true,
                 },
             },
             dataLabels: {
@@ -162,15 +189,31 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
             xaxis: {
                 categories: categories,
             },
+
             title: {
-                text: 'Views for Dishes',
+                text: 'Allery causing Items',
                 align: 'left',
-                floating: true,
+                offsetX: 12,
+                offsetY: 14,
+                floating: false,
                 style: {
-                    fontWeight: '550',
-                    fontSize: '15px',
-                    color: '#000',
+                    fontWeight: '750',
+                    fontSize: '14px',
+                    color: '#333',
+                    padding: '10px',
                 },
+            },
+
+            annotations: {
+                position: 'top',
+                xaxis: [
+                    {
+                        x: 0,
+                        strokeDashArray: 2,
+                        borderColor: '#ddd',
+                        borderWidth: 2,
+                    },
+                ],
             },
         };
 

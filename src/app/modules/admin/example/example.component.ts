@@ -14,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { MatListModule } from '@angular/material/list';
 import ApexCharts from 'apexcharts';
 import { overView as overViewData } from 'app/mock-api/common/overview/data';
 
@@ -30,6 +31,7 @@ import { overView as overViewData } from 'app/mock-api/common/overview/data';
         MatCardModule,
         MatButtonModule,
         CommonModule,
+        MatListModule,
     ],
 })
 export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -95,14 +97,9 @@ export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
 
         const categories = sortedDishes.map((item) => item[0]);
         const values = sortedDishes.map((item) => item[1]);
-        console.log(values);
 
         var options = {
-            series: [
-                {
-                    data: values,
-                },
-            ],
+            series: [{ data: values }],
             chart: {
                 type: 'bar',
                 height: 350,
@@ -115,21 +112,33 @@ export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
                     horizontal: true,
                 },
             },
-            dataLabels: {
-                enabled: false,
-            },
-            xaxis: {
-                categories: categories,
-            },
+            dataLabels: { enabled: false },
+            xaxis: { categories: categories },
+
             title: {
                 text: 'Top Moving Dishes',
                 align: 'left',
-                floating: true,
+                offsetX: 12,
+                offsetY: 14,
+                floating: false,
                 style: {
-                    fontWeight: '550',
-                    fontSize: '15px',
-                    color: '#000',
+                    fontWeight: '750',
+                    fontSize: '14px',
+                    color: '#333',
+                    padding: '10px',
                 },
+            },
+
+            annotations: {
+                position: 'top',
+                xaxis: [
+                    {
+                        x: 0,
+                        strokeDashArray: 2,
+                        borderColor: '#ddd',
+                        borderWidth: 2,
+                    },
+                ],
             },
         };
 
