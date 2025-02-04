@@ -34,12 +34,12 @@ import { Subject, takeUntil } from 'rxjs';
         MatIconModule,
         LanguagesComponent,
         FuseFullscreenComponent,
-        SearchComponent,
-        ShortcutsComponent,
-        MessagesComponent,
-        NotificationsComponent,
+        // SearchComponent,
+        // ShortcutsComponent,
+        // MessagesComponent,
+        // NotificationsComponent,
         RouterOutlet,
-        QuickChatComponent,
+        // QuickChatComponent,
     ],
 })
 export class FuturisticLayoutComponent implements OnInit, OnDestroy {

@@ -10,7 +10,8 @@ import {
 import { MatCard, MatCardModule } from '@angular/material/card';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import ApexCharts from 'apexcharts';
-import { search as searchData } from 'app/mock-api/common/searchData/data';
+import { search, search2, search3 } from 'app/mock-api/common/searchData/data';
+import { RestaurantService } from 'app/service/restaurant/restaurant.service';
 
 @Component({
     selector: 'app-search',
@@ -27,12 +28,20 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     resizeObserver: ResizeObserver;
     trendingSearch: { name: string; count: number } | null = null;
     leastSearch: { name: string; count: number } | null = null;
-    searchData = searchData;
+    searchData = search;
     columns = ['email', 'searchQuery', 'date'];
+    selectedRestaurant: string = 'Restaurant 1';
+
+    constructor(private _restaurantService: RestaurantService) {}
 
     ngOnInit(): void {
         this.calculateSearchCount();
-        console.log(searchData);
+        console.log(this.searchData);
+        this._restaurantService.selectedRestaurant$.subscribe((restaurant) => {
+            this.selectedRestaurant = restaurant;
+            console.log('Selected restaurant:', this.selectedRestaurant);
+            this.updateRestaurantData();
+        });
     }
 
     ngAfterViewInit(): void {
@@ -46,7 +55,8 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     calculateSearchCount() {
-        searchData.forEach((entry) => {
+        this.searchCount = {};
+        this.searchData.forEach((entry) => {
             entry.searchQuery.forEach((dish) => {
                 if (this.searchCount[dish]) {
                     this.searchCount[dish]++;
@@ -103,6 +113,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
                 height: 350,
                 width: '100%',
             },
+            colors: ['#333333'],
             plotOptions: {
                 bar: {
                     borderRadius: 4,
@@ -145,5 +156,18 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.chart = new ApexCharts(this.chartContainer.nativeElement, options);
         this.chart.render();
+    }
+
+    updateRestaurantData() {
+        if (this.selectedRestaurant === 'Restaurant 1') {
+            this.searchData = search;
+        } else if (this.selectedRestaurant === 'Restaurant 2') {
+            this.searchData = search2;
+        } else if (this.selectedRestaurant === 'Restaurant 3') {
+            this.searchData = search3;
+        }
+
+        this.calculateSearchCount();
+        this.initializeChart();
     }
 }

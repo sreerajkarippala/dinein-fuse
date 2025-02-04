@@ -23,7 +23,7 @@
             </div>
         </div>
         <!-- User -->
-        <div class="flex w-full flex-col items-center p-4">
+        <!-- <div class="flex w-full flex-col items-center p-4">
             <div class="relative h-24 w-24">
                 @if (user.avatar) {
                     <img
@@ -51,15 +51,15 @@
                     {{ user.email }}
                 </div>
             </div>
-        </div>
+        </div> -->
     </ng-container>
     <!-- Navigation footer hook -->
     <ng-container fuseVerticalNavigationContentFooter>
-        <div
+        <!-- <div
             class="mb-4 mt-2 flex h-16 flex-0 items-center justify-center pl-2 pr-6 opacity-12"
         >
-            <img class="max-w-36" src="images/logo/logo-text-on-dark.svg" />
-        </div>
+            <img class="max-w-36" src="images/logo/logo.svg" />
+            </div> -->
     </ng-container>
 </fuse-vertical-navigation>
 
@@ -67,30 +67,34 @@
 <div class="flex w-full min-w-0 flex-auto flex-col">
     <!-- Header -->
     <div
-        class="bg-card relative z-49 flex h-16 w-full flex-0 items-center px-4 shadow dark:border-b dark:bg-transparent dark:shadow-none md:px-6 print:hidden"
-    >
-        <!-- Navigation toggle button -->
-        <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
-            <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
+    class="bg-card relative z-49 flex h-16 w-full flex-0 items-center px-4 shadow dark:border-b dark:bg-transparent dark:shadow-none md:px-6 print:hidden"
+>
+    <!-- Navigation toggle button -->
+    <button mat-icon-button (click)="toggleNavigation('mainNavigation')">
+        <mat-icon [svgIcon]="'heroicons_outline:bars-3'"></mat-icon>
+    </button>
+<!-- Restaurant Dropdown -->
+<div class="ml-4 flex flex-row">
+    <button mat-button [matMenuTriggerFor]="restaurantMenu">
+        <b style="display: flex; flex-direction: row; align-items: center; font-size: large; font-weight: 700;">{{
+            selectedRestaurant }}
+            <mat-icon>arrow_drop_down</mat-icon></b>
+
+    </button>
+    <mat-menu #restaurantMenu="matMenu">
+        <button mat-menu-item *ngFor="let restaurant of restaurants" (click)="selectRestaurant(restaurant)">
+            <b>{{restaurant}}</b>
         </button>
-        <!-- Components -->
-        <div class="ml-auto flex items-center space-x-0.5 pl-2 sm:space-x-2">
-            <languages></languages>
-            <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
-            <search [appearance]="'bar'"></search>
-            <shortcuts></shortcuts>
-            <messages></messages>
-            <button
-                class="lg:hidden"
-                mat-icon-button
-                (click)="quickChat.toggle()"
-            >
-                <mat-icon
-                    [svgIcon]="'heroicons_outline:chat-bubble-left-right'"
-                ></mat-icon>
-            </button>
-        </div>
+    </mat-menu>
+</div>
+
+    <!-- Components -->
+    <div class="ml-auto flex items-center space-x-0.5 pl-2 sm:space-x-2">
+        <languages></languages>
+        <fuse-fullscreen class="hidden md:block"></fuse-fullscreen>
     </div>
+    </div>
+
 
     <!-- Content -->
     <div class="flex flex-auto flex-col">
@@ -108,4 +112,4 @@
 </div>
 
 <!-- Quick chat -->
-<quick-chat #quickChat="quickChat"></quick-chat>
+<!-- <quick-chat #quickChat="quickChat"></quick-chat> -->

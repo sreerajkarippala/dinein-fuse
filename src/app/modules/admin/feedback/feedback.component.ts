@@ -2,8 +2,13 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import ApexCharts from 'apexcharts';
-import { feedback as feedbackData } from 'app/mock-api/common/feedback/data';
+import {
+    feedback,
+    feedback2,
+    feedback3,
+} from 'app/mock-api/common/feedback/data';
 import { MatListModule } from '@angular/material/list';
+import { RestaurantService } from 'app/service/restaurant/restaurant.service';
 
 @Component({
     selector: 'app-feedback',
@@ -13,7 +18,7 @@ import { MatListModule } from '@angular/material/list';
 })
 export class FeedbackComponent implements OnInit {
     @ViewChild('donutChart', { static: true }) donutChart: ElementRef;
-    feedbackData = feedbackData;
+    feedbackData = feedback;
     ratingCount: { [key: string]: number } = {
         one: 0,
         two: 0,
@@ -29,9 +34,17 @@ export class FeedbackComponent implements OnInit {
     chart: ApexCharts;
     resizeObserver: ResizeObserver;
     columns: string[] = ['name', 'email', 'dish', 'rating', 'feedback', 'date'];
+    selectedRestaurant: string = 'Restaurant 1';
+
+    constructor(private _restaurantService: RestaurantService) {}
 
     ngOnInit(): void {
         this.calculateFeedbackDetails();
+        this._restaurantService.selectedRestaurant$.subscribe((restaurant) => {
+            this.selectedRestaurant = restaurant;
+            console.log('Selected restaurant:', this.selectedRestaurant);
+            this.updateRestaurantData();
+        });
     }
 
     ngAfterViewInit(): void {
@@ -48,7 +61,19 @@ export class FeedbackComponent implements OnInit {
     }
 
     calculateFeedbackDetails() {
-        feedbackData.forEach((feedback) => {
+        this.ratingCount = {
+            one: 0,
+            two: 0,
+            three: 0,
+            four: 0,
+            five: 0,
+        };
+        this.mostFiveStar = { dish: '', count: 0 };
+        this.mostFourStar = { dish: '', count: 0 };
+        this.mostThreeStar = { dish: '', count: 0 };
+        this.mostTwoStar = { dish: '', count: 0 };
+        this.mostOneStar = { dish: '', count: 0 };
+        this.feedbackData.forEach((feedback) => {
             if (feedback.rating === 1) {
                 this.ratingCount['one']++;
                 this.updateMostRatedDish(
@@ -108,7 +133,7 @@ export class FeedbackComponent implements OnInit {
     }
 
     getDishRatingCount(dish: string, rating: number) {
-        return feedbackData.filter(
+        return this.feedbackData.filter(
             (feedback) => feedback.dish === dish && feedback.rating === rating
         ).length;
     }
@@ -190,5 +215,18 @@ export class FeedbackComponent implements OnInit {
 
         this.chart = new ApexCharts(this.donutChart.nativeElement, options);
         this.chart.render();
+    }
+
+    updateRestaurantData() {
+        if (this.selectedRestaurant === 'Restaurant 1') {
+            this.feedbackData = feedback;
+        } else if (this.selectedRestaurant === 'Restaurant 2') {
+            this.feedbackData = feedback2;
+        } else if (this.selectedRestaurant === 'Restaurant 3') {
+            this.feedbackData = feedback3;
+        }
+
+        this.calculateFeedbackDetails();
+        this.initializeChart();
     }
 }

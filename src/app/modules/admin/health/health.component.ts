@@ -9,7 +9,8 @@ import {
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import ApexCharts from 'apexcharts';
-import { health as healthData } from 'app/mock-api/common/health/data';
+import { health, health2, health3 } from 'app/mock-api/common/health/data';
+import { RestaurantService } from 'app/service/restaurant/restaurant.service';
 
 @Component({
     selector: 'app-health',
@@ -24,14 +25,22 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
     barChartContainer: ElementRef;
     allergyCount: { [key: string]: number } = {};
     allergyItemsCount: { [key: string]: number } = {};
-    healthData = healthData;
+    healthData = health;
     chart: ApexCharts;
     barChart: ApexCharts;
     resizeObserver: ResizeObserver;
     columns: string[] = ['name', 'email', 'allergy', 'item'];
+    selectedRestaurant: string = 'Restaurant 1';
+
+    constructor(private _restaurantService: RestaurantService) {}
     ngOnInit(): void {
-        console.log(healthData);
+        console.log(this.healthData);
         this.calculateAllergyCount();
+        this._restaurantService.selectedRestaurant$.subscribe((restaurant) => {
+            this.selectedRestaurant = restaurant;
+            console.log('Selected restaurant:', this.selectedRestaurant);
+            this.updateRestaurantData();
+        });
     }
 
     ngAfterViewInit(): void {
@@ -51,7 +60,9 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     calculateAllergyCount() {
-        healthData.forEach((entry) => {
+        this.allergyCount = {};
+        this.allergyItemsCount = {};
+        this.healthData.forEach((entry) => {
             entry.allergy.forEach((issue) => {
                 if (this.allergyCount[issue]) {
                     this.allergyCount[issue]++;
@@ -61,7 +72,7 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
             });
         });
 
-        healthData.forEach((entry) => {
+        this.healthData.forEach((entry) => {
             entry.item.forEach((dish) => {
                 if (this.allergyItemsCount[dish]) {
                     this.allergyItemsCount[dish]++;
@@ -113,11 +124,11 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
             plotOptions: {
                 pie: {
                     donut: {
-                        size: '50%',  
-                        background: 'transparent', 
+                        size: '50%',
+                        background: 'transparent',
                         stroke: {
-                            width: 60,  
-                            color: '#fff', 
+                            width: 60,
+                            color: '#fff',
                         },
                     },
                 },
@@ -176,6 +187,7 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
                 height: 350,
                 width: '100%',
             },
+            colors: ['#333333'],
             plotOptions: {
                 bar: {
                     borderRadius: 4,
@@ -222,5 +234,18 @@ export class HealthComponent implements OnInit, AfterViewInit, OnDestroy {
             options
         );
         this.barChart.render();
+    }
+
+    updateRestaurantData() {
+        if (this.selectedRestaurant === 'Restaurant 1') {
+            this.healthData = health;
+        } else if (this.selectedRestaurant === 'Restaurant 2') {
+            this.healthData = health2;
+        } else if (this.selectedRestaurant === 'Restaurant 3') {
+            this.healthData = health3;
+        }
+
+        this.calculateAllergyCount();
+        this.initializeChart();
     }
 }

@@ -16,7 +16,12 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatListModule } from '@angular/material/list';
 import ApexCharts from 'apexcharts';
-import { overView as overViewData } from 'app/mock-api/common/overview/data';
+import {
+    overView,
+    overView2,
+    overView3,
+} from 'app/mock-api/common/overview/data';
+import { RestaurantService } from 'app/service/restaurant/restaurant.service';
 
 @Component({
     selector: 'example',
@@ -37,15 +42,24 @@ import { overView as overViewData } from 'app/mock-api/common/overview/data';
 export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('chartContainer', { static: true }) chartContainer: ElementRef;
     columns: string[] = ['name', 'email', 'dishes', 'tableNumber', 'date'];
-    dataSource = overViewData;
+    overViewData = overView;
+    dataSource = this.overViewData;
     dishesCount: { [key: string]: number } = {};
     slowMovingDishes: { name: string; count: number }[] = [];
     chart: ApexCharts;
     resizeObserver: ResizeObserver;
+    selectedRestaurant: string = 'Restaurant 1';
+
+    constructor(private _restaurantService: RestaurantService) {}
 
     ngOnInit(): void {
         this.calculateOrderNumber();
         console.log(this.dishesCount);
+        this._restaurantService.selectedRestaurant$.subscribe((restaurant) => {
+            this.selectedRestaurant = restaurant;
+            console.log('Selected restaurant:', this.selectedRestaurant);
+            this.updateRestaurantData();
+        });
     }
 
     ngAfterViewInit(): void {
@@ -59,7 +73,8 @@ export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     calculateOrderNumber() {
-        overViewData.forEach((entry) => {
+        this.dishesCount = {};
+        this.overViewData.forEach((entry) => {
             entry.dishes.forEach((dish) => {
                 if (this.dishesCount[dish]) {
                     this.dishesCount[dish]++;
@@ -104,7 +119,9 @@ export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
                 type: 'bar',
                 height: 350,
                 width: '100%',
+                foreColor: '#000000',
             },
+            colors: ['#333333'],
             plotOptions: {
                 bar: {
                     borderRadius: 4,
@@ -148,5 +165,23 @@ export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
 
     drop(event: CdkDragDrop<string[]>) {
         moveItemInArray(this.columns, event.previousIndex, event.currentIndex);
+    }
+
+    updateRestaurantData() {
+        console.log('dataSource Before: ', this.dataSource);
+        console.log('OverViewData before :', this.overViewData);
+        if (this.selectedRestaurant === 'Restaurant 1') {
+            this.overViewData = overView;
+        } else if (this.selectedRestaurant === 'Restaurant 2') {
+            this.overViewData = overView2;
+        } else if (this.selectedRestaurant === 'Restaurant 3') {
+            this.overViewData = overView3;
+        }
+
+        this.dataSource = this.overViewData;
+        console.log('dataSource After: ', this.dataSource);
+        console.log('OverViewData After :', this.overViewData);
+        this.calculateOrderNumber();
+        this.initializeChart();
     }
 }

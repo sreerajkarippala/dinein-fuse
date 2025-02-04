@@ -31,13 +31,13 @@ import { Subject, takeUntil } from 'rxjs';
         MatIconModule,
         LanguagesComponent,
         FuseFullscreenComponent,
-        SearchComponent,
-        ShortcutsComponent,
-        MessagesComponent,
-        NotificationsComponent,
+        // SearchComponent,
+        // ShortcutsComponent,
+        // MessagesComponent,
+        // NotificationsComponent,
         UserComponent,
         RouterOutlet,
-        QuickChatComponent,
+        // QuickChatComponent,
     ],
 })
 export class ThinLayoutComponent implements OnInit, OnDestroy {

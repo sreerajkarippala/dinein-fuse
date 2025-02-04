@@ -5,10 +5,15 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import ApexCharts from 'apexcharts';
-import { comment as commentData } from 'app/mock-api/common/Reaction/comment/data';
-import { like as likeData } from 'app/mock-api/common/Reaction/like/data';
-import { open as openData } from 'app/mock-api/common/Reaction/open/data';
-import { view as viewData } from 'app/mock-api/common/Reaction/view/data';
+import {
+    comment,
+    comment2,
+    comment3,
+} from 'app/mock-api/common/Reaction/comment/data';
+import { like, like2, like3 } from 'app/mock-api/common/Reaction/like/data';
+import { open, open2, open3 } from 'app/mock-api/common/Reaction/open/data';
+import { view, view2, view3 } from 'app/mock-api/common/Reaction/view/data';
+import { RestaurantService } from 'app/service/restaurant/restaurant.service';
 interface DishStats {
     dish: string;
     likes: number;
@@ -39,28 +44,40 @@ export class ReactionComponent implements OnInit {
     columnsView: string[] = ['email', 'dish', 'date'];
     columnsOpen: string[] = ['email', 'dish', 'date'];
     columnsComment: string[] = ['email', 'comment', 'date'];
-    likeData = likeData;
-    viewData = viewData;
-    openData = openData;
-    commentData = commentData;
+    likeData = like;
+    viewData = view;
+    openData = open;
+    commentData = comment;
     chart: ApexCharts;
     viewChart: ApexCharts;
     openChart: ApexCharts;
     resizeObserver: ResizeObserver;
     dishStats: DishStats[] = [];
     selectedTable: string = 'likes';
+    selectedRestaurant: string = 'Restaurant 1';
+
+    constructor(private _restaurantService: RestaurantService) {}
 
     onTableChange(selectedValue: string) {
         this.selectedTable = selectedValue;
         console.log('Selected Table:', this.selectedTable);
     }
     ngOnInit(): void {
-        console.log(likeData);
-        console.log(viewData);
-        console.log(openData);
-        console.log(commentData);
-        this.dishStats = this.getDishStats(likeData, viewData, openData);
+        console.log(this.likeData);
+        console.log(this.viewData);
+        console.log(this.openData);
+        console.log(this.commentData);
+        this.dishStats = this.getDishStats(
+            this.likeData,
+            this.viewData,
+            this.openData
+        );
         console.log(this.dishStats);
+        this._restaurantService.selectedRestaurant$.subscribe((restaurant) => {
+            this.selectedRestaurant = restaurant;
+            console.log('Selected restaurant:', this.selectedRestaurant);
+            this.updateRestaurantData();
+        });
     }
 
     ngAfterViewInit(): void {
@@ -138,6 +155,7 @@ export class ReactionComponent implements OnInit {
                 height: 350,
                 width: '100%',
             },
+            colors: ['#333333'],
             plotOptions: {
                 bar: {
                     borderRadius: 4,
@@ -184,8 +202,9 @@ export class ReactionComponent implements OnInit {
 
     renderViewChart() {
         this.dishStats.sort((a, b) => b.views - a.views);
-        const categories = this.dishStats.map((item) => item.dish);
-        const values = this.dishStats.map((item) => item.views);
+        const top10Dishes = this.dishStats.slice(0, 10);
+        const categories = top10Dishes.map((item) => item.dish);
+        const values = top10Dishes.map((item) => item.views);
 
         var options = {
             series: [
@@ -198,6 +217,7 @@ export class ReactionComponent implements OnInit {
                 height: '100%',
                 width: '100%',
             },
+            colors: ['#333333'],
             plotOptions: {
                 bar: {
                     borderRadius: 4,
@@ -306,6 +326,46 @@ export class ReactionComponent implements OnInit {
             options
         );
         this.openChart.render();
+    }
+    updateRestaurantData() {
+        // Update the data based on the selected restaurant
+        if (this.selectedRestaurant === 'Restaurant 1') {
+            this.likeData = like;
+            this.viewData = view;
+            this.openData = open;
+            this.commentData = comment;
+        } else if (this.selectedRestaurant === 'Restaurant 2') {
+            this.likeData = like2;
+            this.viewData = view2;
+            this.openData = open2;
+            this.commentData = comment2;
+        } else if (this.selectedRestaurant === 'Restaurant 3') {
+            this.likeData = like3;
+            this.viewData = view3;
+            this.openData = open3;
+            this.commentData = comment3;
+        }
+
+        // Update the dish stats with the new data
+        this.dishStats = this.getDishStats(
+            this.likeData,
+            this.viewData,
+            this.openData
+        );
+
+        if (this.chart) {
+            this.chart.destroy();
+        }
+        if (this.viewChart) {
+            this.viewChart.destroy();
+        }
+        if (this.openChart) {
+            this.openChart.destroy();
+        }
+
+        this.renderChart();
+        this.renderViewChart();
+        this.renderOpenChart();
     }
 }
 
