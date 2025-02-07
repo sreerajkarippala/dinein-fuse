@@ -22,6 +22,11 @@ import {
     overView3,
 } from 'app/mock-api/common/overview/data';
 import { RestaurantService } from 'app/service/restaurant/restaurant.service';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+
 
 @Component({
     selector: 'example',
@@ -37,6 +42,8 @@ import { RestaurantService } from 'app/service/restaurant/restaurant.service';
         MatButtonModule,
         CommonModule,
         MatListModule,
+        MatMenuModule,
+        MatIconModule,
     ],
 })
 export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -49,6 +56,7 @@ export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
     chart: ApexCharts;
     resizeObserver: ResizeObserver;
     selectedRestaurant: string = 'Restaurant 1';
+    icon: 'heroicons_outline:bars-3';
 
     constructor(private _restaurantService: RestaurantService) {}
 
@@ -183,5 +191,44 @@ export class ExampleComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('OverViewData After :', this.overViewData);
         this.calculateOrderNumber();
         this.initializeChart();
+    }
+
+    exportToCSV() {
+        const csvData = this.dataSource.map((row) => ({
+            Name: row.user.name,
+            Email: row.user.email,
+            Dishes: row.dishes.join(', '),
+            TableNumber: row.tableNumber,
+            Date: row.date,
+        }));
+        const csvString = this.convertToCSV(csvData);
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'TableData.csv');
+    }
+
+    convertToCSV(data: any[]) {
+        const headers = Object.keys(data[0]).join(',') + '\n';
+        const rows = data.map((obj) => Object.values(obj).join(',')).join('\n');
+        return headers + rows;
+    }
+    exportToExcel() {
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+            this.dataSource.map((row) => ({
+                Name: row.user.name,
+                Email: row.user.email,
+                Dishes: row.dishes.join(', '),
+                TableNumber: row.tableNumber,
+                Date: row.date,
+            }))
+        );
+
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Table Data');
+
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], {
+            type: 'application/octet-stream',
+        });
+        saveAs(blob, 'TableData.xlsx');
     }
 }

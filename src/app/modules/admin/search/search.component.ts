@@ -8,15 +8,26 @@ import {
     ViewEncapsulation,
 } from '@angular/core';
 import { MatCard, MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import ApexCharts from 'apexcharts';
 import { search, search2, search3 } from 'app/mock-api/common/searchData/data';
 import { RestaurantService } from 'app/service/restaurant/restaurant.service';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-search',
     standalone: true,
-    imports: [MatTable, MatTableModule, MatCard, MatCardModule],
+    imports: [
+        MatTable,
+        MatTableModule,
+        MatCard,
+        MatCardModule,
+        MatIconModule,
+        MatMenuModule,
+    ],
     templateUrl: './search.component.html',
     styleUrl: './search.component.scss',
     encapsulation: ViewEncapsulation.None,
@@ -169,5 +180,40 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.calculateSearchCount();
         this.initializeChart();
+    }
+
+    exportToCSV() {
+        const csvData = this.searchData.map((row) => ({
+            Email: row.email,
+            Search: row.searchQuery,
+            Date: row.date,
+        }));
+        const csvString = this.convertToCSV(csvData);
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'TableData.csv');
+    }
+
+    convertToCSV(data: any[]) {
+        const headers = Object.keys(data[0]).join(',') + '\n';
+        const rows = data.map((obj) => Object.values(obj).join(',')).join('\n');
+        return headers + rows;
+    }
+    exportToExcel() {
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+            this.searchData.map((row) => ({
+                Email: row.email,
+                Search: row.searchQuery,
+                Date: row.date,
+            }))
+        );
+
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Table Data');
+
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], {
+            type: 'application/octet-stream',
+        });
+        saveAs(blob, 'TableData.xlsx');
     }
 }

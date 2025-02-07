@@ -24,18 +24,32 @@
 
     <mat-card appearance="outlined" class="rounded-lg mb-8">
         <mat-button-toggle-group name="tableToggle" aria-label="Table Toggle" [(ngModel)]="selectedTable"
-            (change)="onTableChange($event.value)" class="flex justify-end p-2">
-            <mat-button-toggle value="likes">Likes</mat-button-toggle>
-            <mat-button-toggle value="views">Views</mat-button-toggle>
-            <mat-button-toggle value="open">Open</mat-button-toggle>
-            <mat-button-toggle value="comment">Comment</mat-button-toggle>
-        </mat-button-toggle-group>
+        (change)="onTableChange($event.value)" class="flex justify-end p-2">
+        <mat-button-toggle value="likes">Likes</mat-button-toggle>
+        <mat-button-toggle value="views">Views</mat-button-toggle>
+        <mat-button-toggle value="open">Open</mat-button-toggle>
+        <mat-button-toggle value="comment">Comment</mat-button-toggle>
+    </mat-button-toggle-group>
 
+    <!-- Header Section with Title and Export Menu -->
+    <div class="flex justify-between items-center p-4">
+        <span class="text-lg font-semibold">
+            {{ selectedTable | titlecase }}
+        </span>
+        <button mat-icon-button [matMenuTriggerFor]="exportMenu">
+            <mat-icon svgIcon="heroicons_outline:bars-3"></mat-icon>
+        </button>
+        <mat-menu #exportMenu="matMenu">
+            <button mat-menu-item (click)="exportCurrentTable('csv')">
+                <mat-icon>description</mat-icon> Export as CSV
+            </button>
+            <button mat-menu-item (click)="exportCurrentTable('excel')">
+                <mat-icon>table_chart</mat-icon> Export as Excel
+            </button>
+        </mat-menu>
+    </div>
         <!-- Likes Table -->
         <div appearance="outlined" *ngIf="selectedTable === 'likes'">
-            <mat-card-header class="text-center">
-                <mat-card-title class="font-bold">Likes</mat-card-title>
-            </mat-card-header>
             <div class="table-container">
                 <table mat-table [dataSource]="likeData" class="mat-elevation-z8">
                     
@@ -65,9 +79,6 @@
 
         <!-- Views Table -->
         <div appearance="outlined" *ngIf="selectedTable === 'views'">
-            <mat-card-header class="text-center">
-                <mat-card-title class="font-bold">Views</mat-card-title>
-            </mat-card-header>
             <div class="table-container">
                 <table mat-table [dataSource]="viewData" class="mat-elevation-z8">
                     
@@ -97,9 +108,6 @@
 
         <!-- Open Table -->
         <div appearance="outlined" *ngIf="selectedTable === 'open'">
-            <mat-card-header class="text-center">
-                <mat-card-title class="font-bold">Open</mat-card-title>
-            </mat-card-header>
             <div class="table-container">
                 <table mat-table [dataSource]="openData" class="mat-elevation-z8">
                 
@@ -129,9 +137,6 @@
 
         <!-- Comment Table -->
         <div appearance="outlined" *ngIf="selectedTable === 'comment'">
-            <mat-card-header class="text-center">
-                <mat-card-title class="font-bold">Comment</mat-card-title>
-            </mat-card-header>
             <div class="table-container">
                 <table mat-table [dataSource]="commentData" class="mat-elevation-z8">
                 

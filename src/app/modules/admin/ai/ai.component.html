@@ -1,0 +1,47 @@
+<div class="bg-card flex flex-auto flex-col h-full overflow-y-auto dark:bg-default lg:overflow-hidden">
+    <div class="flex flex-col h-full">
+
+        <div class="flex-grow p-4 overflow-y-auto">
+
+            <div #messagesContainer class="space-y-4">
+
+            </div>
+
+
+            <div class="grid grid-cols-12 gap-4 mt-4">
+                <div class="col-span-8">
+                    <div #graphContainer>
+
+                    </div>
+                </div>
+                <div class="col-span-4">
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="flex items-end border-t bg-gray-50 p-4 dark:bg-transparent">
+            <!-- <div class="my-px flex h-11 items-center">
+                <button mat-icon-button>
+                    <mat-icon [svgIcon]="'heroicons_outline:face-smile'"></mat-icon>
+                </button>
+                <button class="ml-0.5" mat-icon-button>
+                    <mat-icon [svgIcon]="'heroicons_outline:paper-clip'"></mat-icon>
+                </button>
+            </div> -->
+
+            <mat-form-field class="fuse-mat-dense fuse-mat-rounded fuse-mat-bold ml-4 w-full flex-content"
+                subscriptSizing="dynamic">
+                <textarea matInput cdkTextareaAutosize #messageInput placeholder="Type a message..."
+                    (keydown.enter)="sendMessage()"></textarea>
+            </mat-form-field>
+
+            <div class="my-px ml-4 flex h-11 items-center">
+                <button mat-icon-button (click)="sendMessage()">
+                    <mat-icon [svgIcon]="'heroicons_outline:paper-airplane'"></mat-icon>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,18 +1,9 @@
 <div class="flex min-w-0 flex-auto flex-col gap-8 container mx-auto px-8">
-    <!-- <mat-card appearance="outlined" class="rounded-lg mt-8">
-        <div #donutChart></div>
-    </mat-card>
-    <mat-card appearance="outlined" class="rounded-lg">
-        <div #barChartContainer></div>
-    </mat-card> -->
-    
+
 
     
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
-<!--     
-        <mat-card appearance="outlined" class="rounded-lg lg:col-span-6 h-[200px] lg:h-[350px]">
-            <div #donutChart class="h-full"></div>
-        </mat-card> -->
+
         <mat-card appearance="outlined" class="rounded-lg lg:col-span-6">
             <div #donutChart></div>
         </mat-card>
@@ -23,6 +14,20 @@
 
 
     <mat-card appearance="outlined" class="rounded-lg mb-8">
+<div class="flex justify-between items-center p-4">
+    <span class="text-lg font-semibold">Health</span>
+    <button mat-icon-button [matMenuTriggerFor]="exportMenu">
+        <mat-icon svgIcon="heroicons_outline:bars-3"></mat-icon>
+    </button>
+    <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="exportToCSV()">
+            <mat-icon>description</mat-icon> Export as CSV
+        </button>
+        <button mat-menu-item (click)="exportToExcel()">
+            <mat-icon>table_chart</mat-icon> Export as Excel
+        </button>
+    </mat-menu>
+</div>
         <div class="table-container">
             <table mat-table [dataSource]="healthData" cdkDropList cdkDropListOrientation="horizontal">
 

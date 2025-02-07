@@ -3,6 +3,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import ApexCharts from 'apexcharts';
 import {
@@ -14,6 +16,8 @@ import { like, like2, like3 } from 'app/mock-api/common/Reaction/like/data';
 import { open, open2, open3 } from 'app/mock-api/common/Reaction/open/data';
 import { view, view2, view3 } from 'app/mock-api/common/Reaction/view/data';
 import { RestaurantService } from 'app/service/restaurant/restaurant.service';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 interface DishStats {
     dish: string;
     likes: number;
@@ -30,6 +34,8 @@ interface DishStats {
         MatButtonToggleModule,
         FormsModule,
         CommonModule,
+        MatIconModule,
+        MatMenuModule,
     ],
     templateUrl: './reaction.component.html',
     styleUrl: './reaction.component.scss',
@@ -328,7 +334,6 @@ export class ReactionComponent implements OnInit {
         this.openChart.render();
     }
     updateRestaurantData() {
-        // Update the data based on the selected restaurant
         if (this.selectedRestaurant === 'Restaurant 1') {
             this.likeData = like;
             this.viewData = view;
@@ -366,6 +371,103 @@ export class ReactionComponent implements OnInit {
         this.renderChart();
         this.renderViewChart();
         this.renderOpenChart();
+    }
+
+    exportCurrentTable(format: string) {
+        let dataToExport: any[] = [];
+
+        switch (this.selectedTable) {
+            case 'likes':
+                dataToExport = this.likeData;
+                break;
+            case 'views':
+                dataToExport = this.viewData;
+                break;
+            case 'open':
+                dataToExport = this.openData;
+                break;
+            case 'comment':
+                dataToExport = this.commentData;
+                break;
+        }
+
+        if (format === 'csv') {
+            this.exportToCSV(dataToExport);
+        } else if (format === 'excel') {
+            this.exportToExcel(dataToExport);
+        }
+    }
+    exportToCSV(data: any[]) {
+        let dataToExport: any[] = [];
+
+        switch (this.selectedTable) {
+            case 'likes':
+                dataToExport = this.likeData;
+                break;
+            case 'views':
+                dataToExport = this.viewData;
+                break;
+            case 'open':
+                dataToExport = this.openData;
+                break;
+            case 'comment':
+                dataToExport = this.commentData;
+                break;
+        }
+
+        const csvData = dataToExport.map((row) => ({
+            Email: row.email,
+            [this.selectedTable === 'comment' ? 'Comment' : 'Dish']:
+                row.dish || row.comment,
+            Date: row.date,
+        }));
+
+        const csvString = this.convertToCSV(csvData);
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, `${this.selectedTable}_Data.csv`);
+    }
+
+    convertToCSV(data: any[]) {
+        const headers = Object.keys(data[0]).join(',') + '\n';
+        const rows = data.map((obj) => Object.values(obj).join(',')).join('\n');
+        return headers + rows;
+    }
+
+    exportToExcel(data: any[]) {
+        let dataToExport: any[] = [];
+
+        switch (this.selectedTable) {
+            case 'likes':
+                dataToExport = this.likeData;
+                break;
+            case 'views':
+                dataToExport = this.viewData;
+                break;
+            case 'open':
+                dataToExport = this.openData;
+                break;
+            case 'comment':
+                dataToExport = this.commentData;
+                break;
+        }
+
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+            dataToExport.map((row) => ({
+                Email: row.email,
+                [this.selectedTable === 'comment' ? 'Comment' : 'Dish']:
+                    row.dish || row.comment,
+                Date: row.date,
+            }))
+        );
+
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, `${this.selectedTable} Data`);
+
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], {
+            type: 'application/octet-stream',
+        });
+        saveAs(blob, `${this.selectedTable}_Data.xlsx`);
     }
 }
 

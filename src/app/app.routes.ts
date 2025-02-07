@@ -138,6 +138,10 @@ export const appRoutes: Route[] = [
                 loadChildren: () =>
                     import('app/modules/admin/feedback/feedback.routes'),
             },
+            {
+                path: 'ai',
+                loadChildren: () => import('app/modules/admin/ai/ai.routes'),
+            },
         ],
     },
 ];

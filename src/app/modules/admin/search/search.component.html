@@ -41,6 +41,20 @@
         </mat-card>
     </div>
     <mat-card appearance="outlined" class="rounded-lg mb-8">
+        <div class="flex justify-between items-center p-4">
+            <span class="text-lg font-semibold">Search</span>
+            <button mat-icon-button [matMenuTriggerFor]="exportMenu">
+                <mat-icon svgIcon="heroicons_outline:bars-3"></mat-icon>
+            </button>
+            <mat-menu #exportMenu="matMenu">
+                <button mat-menu-item (click)="exportToCSV()">
+                    <mat-icon>description</mat-icon> Export as CSV
+                </button>
+                <button mat-menu-item (click)="exportToExcel()">
+                    <mat-icon>table_chart</mat-icon> Export as Excel
+                </button>
+            </mat-menu>
+        </div>
         <div class="table-container">
             <table mat-table [dataSource]="searchData" cdkDropList cdkDropListOrientation="horizontal">
 

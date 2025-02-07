@@ -9,10 +9,20 @@ import {
 } from 'app/mock-api/common/feedback/data';
 import { MatListModule } from '@angular/material/list';
 import { RestaurantService } from 'app/service/restaurant/restaurant.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-feedback',
-    imports: [MatCardModule, MatTableModule, MatListModule],
+    imports: [
+        MatCardModule,
+        MatTableModule,
+        MatListModule,
+        MatIconModule,
+        MatMenuModule,
+    ],
     templateUrl: './feedback.component.html',
     styleUrl: './feedback.component.scss',
 })
@@ -35,6 +45,7 @@ export class FeedbackComponent implements OnInit {
     resizeObserver: ResizeObserver;
     columns: string[] = ['name', 'email', 'dish', 'rating', 'feedback', 'date'];
     selectedRestaurant: string = 'Restaurant 1';
+    icon: 'heroicons_outline:bars-3';
 
     constructor(private _restaurantService: RestaurantService) {}
 
@@ -228,5 +239,46 @@ export class FeedbackComponent implements OnInit {
 
         this.calculateFeedbackDetails();
         this.initializeChart();
+    }
+
+    exportToCSV() {
+        const csvData = this.feedbackData.map((row) => ({
+            Name: row.name,
+            Email: row.email,
+            Dishes: row.dish,
+            TableNumber: row.rating,
+            Feedback: row.feedback,
+            Date: row.date,
+        }));
+        const csvString = this.convertToCSV(csvData);
+        const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+        saveAs(blob, 'TableData.csv');
+    }
+
+    convertToCSV(data: any[]) {
+        const headers = Object.keys(data[0]).join(',') + '\n';
+        const rows = data.map((obj) => Object.values(obj).join(',')).join('\n');
+        return headers + rows;
+    }
+    exportToExcel() {
+        const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+            this.feedbackData.map((row) => ({
+                Name: row.name,
+                Email: row.email,
+                Dishes: row.dish,
+                TableNumber: row.rating,
+                Feedback: row.feedback,
+                Date: row.date,
+            }))
+        );
+
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Table Data');
+
+        const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+        const blob = new Blob([excelBuffer], {
+            type: 'application/octet-stream',
+        });
+        saveAs(blob, 'TableData.xlsx');
     }
 }

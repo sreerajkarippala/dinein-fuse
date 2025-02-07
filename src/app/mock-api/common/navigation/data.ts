@@ -27,7 +27,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         id: 'health',
         title: 'Health',
         type: 'basic',
-        icon: 'mat_solid:health_and_safety',
+        icon: 'mat_outline:health_and_safety',
         link: '/health',
     },
     {
@@ -36,6 +36,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'mat_outline:feedback',
         link: '/feedback',
+    },
+    {
+        id: 'ai',
+        title: 'AI',
+        type: 'basic',
+        icon: 'heroicons_outline:sparkles',
+        link: '/ai',
     },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
@@ -64,7 +71,7 @@ export const compactNavigation: FuseNavigationItem[] = [
         id: 'health',
         title: 'Health',
         type: 'basic',
-        icon: 'mat_solid:health_and_safety',
+        icon: 'mat_outline:health_and_safety',
         link: '/health',
     },
     {
@@ -73,6 +80,13 @@ export const compactNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'mat_outline:feedback',
         link: '/feedback',
+    },
+    {
+        id: 'ai',
+        title: 'AI',
+        type: 'basic',
+        icon: 'heroicons_outline:sparkles',
+        link: '/ai',
     },
 ];
 export const futuristicNavigation: FuseNavigationItem[] = [
@@ -101,7 +115,7 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         id: 'health',
         title: 'Health',
         type: 'basic',
-        icon: 'mat_solid:health_and_safety',
+        icon: 'mat_outline:health_and_safety',
         link: '/health',
     },
     {
@@ -110,6 +124,13 @@ export const futuristicNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'mat_outline:feedback',
         link: '/feedback',
+    },
+    {
+        id: 'ai',
+        title: 'AI',
+        type: 'basic',
+        icon: 'heroicons_outline:sparkles',
+        link: '/ai',
     },
 ];
 export const horizontalNavigation: FuseNavigationItem[] = [
@@ -138,7 +159,7 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         id: 'health',
         title: 'Health',
         type: 'basic',
-        icon: 'mat_solid:health_and_safety',
+        icon: 'mat_outline:health_and_safety',
         link: '/health',
     },
     {
@@ -147,5 +168,12 @@ export const horizontalNavigation: FuseNavigationItem[] = [
         type: 'basic',
         icon: 'mat_outline:feedback',
         link: '/feedback',
+    },
+    {
+        id: 'ai',
+        title: 'AI',
+        type: 'basic',
+        icon: 'heroicons_outline:sparkles',
+        link: '/ai',
     },
 ];
